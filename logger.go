@@ -1,4 +1,4 @@
-package jetlog
+package log
 
 import (
 	"fmt"
