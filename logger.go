@@ -2,6 +2,7 @@ package log
 
 import (
 	"fmt"
+	"io"
 	"log"
 )
 
@@ -23,6 +24,11 @@ type Logger interface {
 	Warningf(format string, v ...interface{})
 }
 
+func New(out io.Writer, prefix string, flag int) *DefaultLogger {
+	return &DefaultLogger{logger: log.New(out, prefix, flag), Calldepth: 2}
+}
+
+// Deprecated: use New() to avoid importing "log"
 func NewDefaultLogger(logger *log.Logger) *DefaultLogger {
 	return &DefaultLogger{logger: logger, Calldepth: 2}
 }
