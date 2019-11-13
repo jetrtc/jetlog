@@ -1,33 +1,42 @@
 package log
 
-type Loggable struct {
-	Logger Logger
+type Loggable interface {
+	Logger
+	Debugf(format string, v ...interface{})
+	Infof(format string, v ...interface{})
+	Warningf(format string, v ...interface{})
+	Errorf(format string, v ...interface{})
+	Fatalf(format string, v ...interface{})
 }
 
-func NewLoggable(logger Logger) *Loggable {
-	return &Loggable{Logger: logger}
+func NewLoggable(logger Logger) Loggable {
+	return &loggable{logger: logger}
 }
 
-func (l *Loggable) Output(level LogLevel, format string, v ...interface{}) {
-	l.Logger.Output(level, format, v...)
+type loggable struct {
+	logger Logger
 }
 
-func (l *Loggable) Fatalf(format string, v ...interface{}) {
-	l.Logger.Output(LogFatal, format, v...)
+func (c *loggable) Output(level LogLevel, format string, v ...interface{}) {
+	c.logger.Output(level, format, v...)
 }
 
-func (l *Loggable) Debugf(format string, v ...interface{}) {
-	l.Logger.Output(LogDebug, format, v...)
+func (c *loggable) Debugf(format string, v ...interface{}) {
+	c.logger.Output(LogDebug, format, v...)
 }
 
-func (l *Loggable) Errorf(format string, v ...interface{}) {
-	l.Logger.Output(LogError, format, v...)
+func (c *loggable) Infof(format string, v ...interface{}) {
+	c.logger.Output(LogInfo, format, v...)
 }
 
-func (l *Loggable) Infof(format string, v ...interface{}) {
-	l.Logger.Output(LogInfo, format, v...)
+func (c *loggable) Warningf(format string, v ...interface{}) {
+	c.logger.Output(LogWarning, format, v...)
 }
 
-func (l *Loggable) Warningf(format string, v ...interface{}) {
-	l.Logger.Output(LogWarning, format, v...)
+func (c *loggable) Errorf(format string, v ...interface{}) {
+	c.logger.Output(LogError, format, v...)
+}
+
+func (c *loggable) Fatalf(format string, v ...interface{}) {
+	c.logger.Output(LogFatal, format, v...)
 }

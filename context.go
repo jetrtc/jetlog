@@ -1,31 +1,17 @@
 package log
 
-import (
-	"context"
-	"time"
-)
+import "context"
 
-type Context struct {
+type Context interface {
+	context.Context
 	Loggable
-	Context context.Context
 }
 
-func NewContext(logger Logger, ctx context.Context) *Context {
-	return &Context{Loggable: Loggable{Logger: logger}, Context: ctx}
+func NewContext(ctx context.Context, logger Logger) Context {
+	return &context_{Context: ctx, Loggable: NewLoggable(logger)}
 }
 
-func (ctx *Context) Deadline() (deadline time.Time, ok bool) {
-	return ctx.Context.Deadline()
-}
-
-func (ctx *Context) Done() <-chan struct{} {
-	return ctx.Context.Done()
-}
-
-func (ctx *Context) Err() error {
-	return ctx.Context.Err()
-}
-
-func (ctx *Context) Value(key interface{}) interface{} {
-	return ctx.Context.Value(key)
+type context_ struct {
+	context.Context
+	Loggable
 }

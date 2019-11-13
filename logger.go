@@ -21,12 +21,11 @@ type Logger interface {
 
 func NewDefaultLogger(logger *log.Logger) *DefaultLogger {
 	l := &DefaultLogger{logger: logger, Calldepth: 2}
-	l.Logger = l
+	l.logger = logger
 	return l
 }
 
 type DefaultLogger struct {
-	Loggable
 	logger    *log.Logger
 	Calldepth int
 	Level     LogLevel
