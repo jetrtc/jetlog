@@ -1,3 +1,3 @@
 # jetlog
 
-Logging utilities.
+Logging framework.

@@ -4,14 +4,14 @@ import "context"
 
 type Context interface {
 	context.Context
-	Loggable
+	Sugar
 }
 
-func NewContext(ctx context.Context, logger Logger) Context {
-	return &context_{Context: ctx, Loggable: NewLoggable(logger)}
+func NewContext(ctx context.Context, sugar Sugar) Context {
+	return &context_{Context: ctx, Sugar: sugar}
 }
 
 type context_ struct {
 	context.Context
-	Loggable
+	Sugar
 }
