@@ -12,11 +12,11 @@ var (
 	darkGray = color("\033[1;90m%s\033[0m")
 )
 
-func color(colorString string) func(msg string, args ...interface{}) string {
-	sprint := func(msg string, args ...interface{}) string {
-		return fmt.Sprintf(colorString, fmt.Sprintf(msg, args...))
+func color(colorString string) func(msg string) string {
+	msg := func(msg string) string {
+		return fmt.Sprintf(colorString, msg)
 	}
-	return sprint
+	return msg
 }
 
 func Color(writer Writer) Writer {
